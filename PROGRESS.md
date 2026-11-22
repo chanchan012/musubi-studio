@@ -1,7 +1,7 @@
 # Musubi — Progress
 
 ## Roadmap
-- [~] **M0 Infrastructure** — scaffold ✅, Neon db ✅, Clerk app ✅, R2 bucket ✅, OpenNext build ✅; pending: GitHub repo push, Clerk secret key, Inngest keys, first deploy + live `/api/health`
+- [x] **M0 Infrastructure** — live at https://musubi-studio.c-notesacc12.workers.dev (`/api/health` 200). Pending for later: Inngest keys (M5), Liveblocks (M4), Upstash (M4), R2 S3 keys (M1)
 - [ ] M1 Auth, Neon schema & R2 storage
 - [ ] M2 FSRS & study technique engine
 - [ ] M3 Board-exam mock & strategy engine
@@ -15,3 +15,6 @@
 - Clerk: app `app_3MSjQrYvRaNCvxdZlU3ajQgJ8RJ` "musubi", **development** instance.
 - R2: bucket `musubi-assets` (ENAM).
 - Verified: `pnpm typecheck`, `pnpm test`, `pnpm build`, `pnpm cf:build` all pass locally.
+
+- Deploy: Cloudflare Workers Builds connected to GitHub `main` (Worker name `musubi-studio`); runtime secrets set in dashboard (`CLERK_SECRET_KEY`, `NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY`).
+- Sandbox env `musubi-studio` allowlists the live host for health checks.
