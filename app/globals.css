@@ -1,0 +1,15 @@
+@import "tailwindcss";
+
+:root {
+  --paper: #faf8f5; --ink: #141413; --seal: #d94e34; --sage: #2e7d5b;
+  --card: #ffffff; --line: #e4dfd6; --muted: #6b675f;
+}
+@media (prefers-color-scheme: dark) {
+  :root { --paper: #121316; --ink: #eceae4; --card: #1a1b20; --line: #2a2c33; --muted: #9a978f; }
+}
+@theme inline {
+  --color-paper: var(--paper); --color-ink: var(--ink); --color-seal: var(--seal);
+  --color-sage: var(--sage); --color-card: var(--card); --color-line: var(--line); --color-muted: var(--muted);
+}
+html, body { background: var(--paper); color: var(--ink); }
+body { font-family: ui-serif, "Hiragino Mincho ProN", Georgia, serif; font-variant-numeric: tabular-nums; }

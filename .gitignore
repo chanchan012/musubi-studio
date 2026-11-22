@@ -1,0 +1,9 @@
+.env*
+!.env.example
+node_modules
+.next
+.open-next
+.wrangler
+.dev.vars
+test-results
+playwright-report
