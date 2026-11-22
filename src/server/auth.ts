@@ -6,7 +6,12 @@ import { roleAtLeast, type Role } from "@/lib/acl";
 
 export type Vars = { userId: string };
 
-export const clerk = clerkMiddleware();
+/** Keys are read per request: on Workers, process.env is only populated once a request is in flight. */
+export const clerk: MiddlewareHandler = (c, next) =>
+  clerkMiddleware({
+    publishableKey: process.env.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY ?? process.env.CLERK_PUBLISHABLE_KEY,
+    secretKey: process.env.CLERK_SECRET_KEY,
+  })(c, next);
 
 /** Requires a signed-in Clerk session; sets c.var.userId. */
 export const requireUser: MiddlewareHandler<{ Variables: Vars }> = async (c, next) => {
