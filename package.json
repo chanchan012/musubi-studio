@@ -14,12 +14,18 @@
     "cf:preview": "opennextjs-cloudflare build && opennextjs-cloudflare preview"
   },
   "dependencies": {
+    "@aws-sdk/client-s3": "^3.1175.0",
+    "@aws-sdk/s3-request-presigner": "^3.1175.0",
+    "@clerk/backend": "^3.31.4",
     "@clerk/nextjs": "^7.10.7",
     "@hono/clerk-auth": "^3.1.1",
+    "@neondatabase/serverless": "^1.2.1",
+    "drizzle-orm": "^0.45.4",
     "hono": "^4.13.20",
     "next": "^16.4.6",
     "react": "^19.3.1",
     "react-dom": "^19.3.1",
+    "svix": "^2.11.0",
     "zod": "^4.6.7"
   },
   "devDependencies": {
@@ -29,6 +35,7 @@
     "@types/node": "^26.6.6",
     "@types/react": "^19.3.0",
     "@types/react-dom": "^19.3.0",
+    "drizzle-kit": "^0.31.11",
     "postcss": "^8.5.33",
     "tailwindcss": "^4.3.5",
     "typescript": "^7.0.2",
