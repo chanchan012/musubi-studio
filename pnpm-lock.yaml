@@ -44,6 +44,9 @@ importers:
       svix:
         specifier: ^2.11.0
         version: 2.11.0
+      ts-fsrs:
+        specifier: ^6.0.1
+        version: 6.0.1
       zod:
         specifier: ^4.6.7
         version: 4.6.7
@@ -1185,6 +1188,10 @@ packages:
   '@nodelib/fs.walk@1.2.8':
     resolution: {integrity: sha512-oGB+UxlgWcgQkgwo8GcEGwemoTFt3FIO9ababBmaGwXIoBKZ+GTy0pP185beGg7Llih/NSHSV2XAs1lnznocSg==}
     engines: {node: '>= 8'}
+
+  '@open-spaced-repetition/srs-kit@1.0.1':
+    resolution: {integrity: sha512-3lByXcLQjnsfoovEQabKLrGQVmjEDjbJMF7f8/d8Zeak/kqCSLtPBKrmYdT8ZxDTqBIZ37lYBbKRcStse57a5Q==}
+    engines: {node: '>=20.0.0'}
 
   '@opennextjs/aws@4.2.0':
     resolution: {integrity: sha512-uWWER/P66CphCM+L0WlN9DSj3LauN/HjfK64V0+Hs+hjzKuQLGII/Q7FhkU1j/BEG4zbjIvkuJorzIyFwVWZiQ==}
@@ -2740,6 +2747,10 @@ packages:
   tr46@0.0.3:
     resolution: {integrity: sha512-N3WMsuqV66lT30CrXNbEjx4GEwlow3v6rr4mCcv6prnfwhS01rkgyFdjPNBYd9br7LpXV1+Emh01fHnq2Gdgrw==}
 
+  ts-fsrs@6.0.1:
+    resolution: {integrity: sha512-0p24HPUDf1THvanl/pyq2p0jfst111BKl9lB9p7NiByHhwkEPtNOkBUd6YV2jxiucI8cD/X9DnrQs1PbcrOFmQ==}
+    engines: {node: '>=24.0.0'}
+
   ts-tqdm@0.8.6:
     resolution: {integrity: sha512-3X3M1PZcHtgQbnwizL+xU8CAgbYbeLHrrDwL9xxcZZrV5J+e7loJm1XrXozHjSkl44J0Zg0SgA8rXbh83kCkcQ==}
 
@@ -4143,6 +4154,8 @@ snapshots:
     dependencies:
       '@nodelib/fs.scandir': 2.1.5
       fastq: 1.20.3
+
+  '@open-spaced-repetition/srs-kit@1.0.1': {}
 
   '@opennextjs/aws@4.2.0(next@16.4.6(@playwright/test@1.65.1)(@types/node@26.6.6)(react-dom@19.3.1(react@19.3.1))(react@19.3.1))':
     dependencies:
@@ -5590,6 +5603,10 @@ snapshots:
   toidentifier@1.0.1: {}
 
   tr46@0.0.3: {}
+
+  ts-fsrs@6.0.1:
+    dependencies:
+      '@open-spaced-repetition/srs-kit': 1.0.1
 
   ts-tqdm@0.8.6: {}
 
