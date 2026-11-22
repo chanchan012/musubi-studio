@@ -13,9 +13,13 @@
 | `GET /decks/:id` | viewer+ | deck + items; 404 (not 403) when not a member |
 | `POST /uploads/presign` | editor+ | body `{deckId, filename, contentType, size<=5MB}` -> presigned PUT (10 min) |
 | `GET /uploads/url?key=` | viewer+ | presigned GET; deck derived from key |
+| `GET /study/queue?deckId&mode&limit&newLimit&retention&seed` | member | due + new items with 4 rating previews and retrievability; modes fsrs\|blurt\|interleave\|feynman\|dual |
+| `POST /study/review` | viewer+ | `{itemId, rating 1-4}` -> FSRS update, returns next previews + `feynmanPrompt` |
+| `GET /study/stats` | member | total, due, Leitner bucket counts |
+| `POST/GET /study/feynman` | viewer+ | learner "why & how" notes (agent feedback column filled via MCP in M4) |
 
 ## Neon (project still-bird-86777802, db `musubi`) — `src/db/schema.ts`
-users, decks, deck_members(role owner|editor|viewer), items(kind card|mcq, cloze, options jsonb, rationales jsonb, author_kind human|agent), review_states (FSRS fields, pk user+item), attempts (certainty, eliminations, trap_tags), error_log, mcp_tokens (sha256), community_posts/votes, errata, item_stats.
+users, feynman_notes, decks, deck_members(role owner|editor|viewer), items(kind card|mcq, cloze, options jsonb, rationales jsonb, author_kind human|agent), review_states (FSRS fields, pk user+item), attempts (certainty, eliminations, trap_tags), error_log, mcp_tokens (sha256), community_posts/votes, errata, item_stats.
 ACL: `src/lib/acl.ts` (`roleAtLeast`), `src/server/auth.ts` (`getDeckRole`, `assertDeckRole`) — every deck query goes through deck_members.
 
 ## R2 (`musubi-assets`, binding `R2`, private)

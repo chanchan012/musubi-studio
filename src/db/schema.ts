@@ -51,6 +51,7 @@ export const items = pgTable("items", {
   mnemonic: text("mnemonic"),
   pearl: text("pearl"),
   diagramKey: text("diagram_key"), // R2 key
+  compareTable: jsonb("compare_table").$type<{ headers: string[]; rows: string[][] }>(), // dual-coding table
   // mcq
   stem: text("stem"),
   options: jsonb("options").$type<string[]>(), // 4–5 choices A–E
@@ -147,3 +148,12 @@ export const itemStats = pgTable("item_stats", {
   optionCounts: jsonb("option_counts").$type<number[]>(),
   updatedAt: ts("updated_at"),
 });
+
+export const feynmanNotes = pgTable("feynman_notes", {
+  id: uuid("id").primaryKey().defaultRandom(),
+  userId: text("user_id").notNull().references(() => users.id, { onDelete: "cascade" }),
+  itemId: uuid("item_id").notNull().references(() => items.id, { onDelete: "cascade" }),
+  body: text("body").notNull(), // learner's plain-English "why & how"
+  agentFeedback: text("agent_feedback"), // written by a connected MCP agent
+  createdAt: ts("created_at"),
+}, (t) => [index("feynman_user_item_idx").on(t.userId, t.itemId)]);
