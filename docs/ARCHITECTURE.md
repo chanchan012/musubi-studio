@@ -16,6 +16,10 @@
 | `GET /study/queue?deckId&mode&limit&newLimit&retention&seed` | member | due + new items with 4 rating previews and retrievability; modes fsrs\|blurt\|interleave\|feynman\|dual |
 | `POST /study/review` | viewer+ | `{itemId, rating 1-4}` -> FSRS update, returns next previews + `feynmanPrompt` |
 | `GET /study/stats` | member | total, due, Leitner bucket counts |
+| `GET /exam/:deckId/questions?count&seed&interleave` | viewer+ | MCQs without key/rationales |
+| `POST /exam/submit` | viewer+ | `{deckId, answers[{itemId, choice, certainty 1-3, ms, eliminated, trap}]}` -> score, calibration, per-item flags + rationales; logs misses/low-certainty to error_log |
+| `GET /exam/errors`, `PATCH /exam/errors/:id` | owner of entry | mistake journal; root cause tag |
+| `GET /exam/redrill` | member | items whose Day 1/3/7 re-test is due |
 | `POST/GET /study/feynman` | viewer+ | learner "why & how" notes (agent feedback column filled via MCP in M4) |
 
 ## Neon (project still-bird-86777802, db `musubi`) — `src/db/schema.ts`
