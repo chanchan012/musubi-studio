@@ -8,10 +8,11 @@
     "build": "next build",
     "typecheck": "tsc --noEmit",
     "test": "vitest run",
-    "e2e": "playwright test --trace off",
+    "e2e": "playwright test",
     "cf:build": "opennextjs-cloudflare build",
     "cf:deploy": "opennextjs-cloudflare build && opennextjs-cloudflare deploy",
-    "cf:preview": "opennextjs-cloudflare build && opennextjs-cloudflare preview"
+    "cf:preview": "opennextjs-cloudflare build && opennextjs-cloudflare preview",
+    "e2e:full": "next build && playwright test"
   },
   "dependencies": {
     "@aws-sdk/client-s3": "^3.1175.0",
