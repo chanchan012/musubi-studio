@@ -4,7 +4,8 @@ let app: typeof import("@/server/app").app;
 
 beforeAll(async () => {
   process.env.CLERK_SECRET_KEY = "sk_test_dummy";
-  process.env.CLERK_PUBLISHABLE_KEY = "pk_test_cGVyZmVjdC1raXdpLTU2NTUuY2xlcmsuYWNjb3VudHMuZGV2JA";
+  delete process.env.CLERK_PUBLISHABLE_KEY;
+  process.env.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY = "pk_test_cGVyZmVjdC1raXdpLTU2NTUuY2xlcmsuYWNjb3VudHMuZGV2JA";
   delete process.env.CLERK_WEBHOOK_SIGNING_SECRET;
   ({ app } = await import("@/server/app"));
 });
