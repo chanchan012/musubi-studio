@@ -5,6 +5,7 @@ import { and, count, desc, eq, sql } from "drizzle-orm";
 import { UserButton } from "@clerk/nextjs";
 import { getDb, schema } from "@/db/client";
 import { NewDeckForm } from "@/components/NewDeckForm";
+import { DeckTools } from "@/components/community/DeckTools";
 
 export const dynamic = "force-dynamic";
 
@@ -33,6 +34,7 @@ export default async function Dashboard() {
       <header className="flex items-center gap-3 border-b border-line px-4 py-3 sm:px-6">
         <Link href="/" className="flex items-center gap-2 font-semibold"><span aria-hidden className="text-xl text-seal">結</span> Musubi</Link>
         <nav className="ml-auto flex items-center gap-3 text-sm">
+          <Link href="/community" className="rounded-lg px-3 py-2 hover:bg-card">Community</Link>
           <UserButton />
         </nav>
       </header>
@@ -63,6 +65,8 @@ export default async function Dashboard() {
                       <Link href={`/exam/${deck.id}`} aria-disabled={mcqs === 0}
                         className={`min-h-10 rounded-lg px-3 py-2 text-sm font-medium ${mcqs ? "bg-ink text-paper" : "pointer-events-none bg-line text-muted"}`}>Take exam</Link>
                     </div>
+                    {deck.forkedFromDeckId && <p className="mt-2 text-xs text-muted">Forked from a community deck</p>}
+                    <DeckTools deckId={deck.id} isOwner={role === "owner"} defaultTrack={deck.examTrack ?? ""} />
                   </li>
                 ))}
               </ul>

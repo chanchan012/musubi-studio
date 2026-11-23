@@ -29,6 +29,8 @@ export const decks = pgTable("decks", {
   subject: text("subject"),
   coverKey: text("cover_key"), // R2 key
   isPublic: boolean("is_public").notNull().default(false),
+  forkedFromDeckId: uuid("forked_from_deck_id"), // attribution for community clones
+  forkedFromUserId: text("forked_from_user_id"),
   createdAt: ts("created_at"),
   updatedAt: ts("updated_at"),
 }, (t) => [index("decks_owner_idx").on(t.ownerId)]);
@@ -125,7 +127,7 @@ export const communityPosts = pgTable("community_posts", {
   score: integer("score").notNull().default(0),
   verified: boolean("verified").notNull().default(false),
   createdAt: ts("created_at"),
-}, (t) => [index("community_track_idx").on(t.track)]);
+}, (t) => [index("community_track_idx").on(t.track), uniqueIndex("community_deck_idx").on(t.deckId)]);
 
 export const communityVotes = pgTable("community_votes", {
   postId: uuid("post_id").notNull().references(() => communityPosts.id, { onDelete: "cascade" }),
@@ -138,8 +140,9 @@ export const errata = pgTable("errata", {
   itemId: uuid("item_id").notNull().references(() => items.id, { onDelete: "cascade" }),
   userId: text("user_id").notNull().references(() => users.id),
   body: text("body").notNull(),
+  resolved: boolean("resolved").notNull().default(false),
   createdAt: ts("created_at"),
-});
+}, (t) => [index("errata_item_idx").on(t.itemId)]);
 
 export const itemStats = pgTable("item_stats", {
   itemId: uuid("item_id").primaryKey().references(() => items.id, { onDelete: "cascade" }),

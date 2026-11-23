@@ -6,7 +6,7 @@
 - [x] M2 FSRS & study technique engine — engine + API done (39 tests). Study UI (flip card, rating buttons, timer, blurt box, Feynman prompt, dual-coding view, mastery ladder) is built with the screens in M3/M4 since `/dashboard` and `/studio` do not exist yet
 - [x] M3 Board-exam mock & strategy engine — CBM, strike/trap tags, 90s nudge, two-pass, error journal + Day 1/3/7 re-drill, `/api/exam/*`, exam runner UI, landing + auth + minimal dashboard, Playwright at 375/768/1440 (59 unit + 17 e2e tests). Not yet: study (flashcard) screens, full dashboard (due queue, weak-topic radar, MCP modal), `/community`
 - [~] M4 Collaborative studio & MCP — built: `/studio/[id]` (list/editor, undo/redo with Human/AI attribution, presence + soft locks, Yjs rationale editor, comment threads, connect-agent modal), `/api/studio/*`, `/api/mcp` (8 Zod tools, Clerk OAuth + `mus_` token fallback; Code Mode dropped, needs paid plan), personal tokens (sha256), Upstash limits. Pending live verification. Also fixed: OpenNext `cookie@0.7.2` pin (Error 1101).
-- [ ] M5 Community question bank & Inngest jobs
+- [x] **M5 Community & Inngest** — `/community` (search, track/sort filters, Verified only), `/community/[id]` (items with P-value, difficulty band, per-option pick rate, "weak distractor" flag under 5%, errata), votes, fork with attribution (`decks.forked_from_*`, `items.forked_from`), publish from dashboard or MCP, exports (CSV/JSON/Anki TSV → R2 via Inngest), 6-hourly stats recalculation + Verified rule (30+ attempts, score ≥3, zero open errata), nightly Liveblocks→Neon rationale snapshot. Migration `0002_community` applied. Not exercised live: signed-in vote/fork/errata/export (needs a Clerk session).
 - [ ] M6 E2E verification
 
 ## M0 log

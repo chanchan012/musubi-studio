@@ -2,6 +2,7 @@ import { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 import { z } from "zod";
 import { and, eq } from "drizzle-orm";
 import { getDb, schema } from "@/db/client";
+import { publishDeck } from "./community";
 import { assertDeckRole } from "./auth";
 import { createFlashcards, createMcqs, updateItem, weakTopics } from "./items";
 import { notifyItemsChanged } from "./liveblocks";
@@ -94,8 +95,7 @@ export function buildMcpServer(ctx: Ctx): McpServer {
     inputSchema: { deckId, track: z.string().min(1).max(60), subject: z.string().max(80).optional(), topic: z.string().max(120).optional() },
   }, async ({ deckId: d, track, subject, topic }) => {
     if (!(await assertDeckRole(d, ctx.userId, "owner"))) return fail("forbidden: owner access required");
-    const [post] = await getDb().insert(schema.communityPosts).values({ deckId: d, publisherId: ctx.userId, track, subject, topic }).returning({ id: schema.communityPosts.id });
-    return text({ postId: post.id });
+    return text({ postId: await publishDeck(d, ctx.userId, { track, subject, topic }) });
   });
 
   server.registerTool("query_weak_topics", {
