@@ -33,3 +33,12 @@ describe("mcp", () => {
     expect(await sha256Hex(t)).toMatch(/^[0-9a-f]{64}$/);
   });
 });
+
+describe("mcp http auth", () => {
+  it("401s without a token and points at the protected-resource metadata", async () => {
+    const { mcp } = await import("@/server/routes/mcp");
+    const res = await mcp.request("https://x.test/", { method: "POST" });
+    expect(res.status).toBe(401);
+    expect(res.headers.get("www-authenticate")).toContain("/.well-known/oauth-protected-resource/api/mcp");
+  });
+});
