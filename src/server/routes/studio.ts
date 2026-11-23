@@ -72,6 +72,39 @@ studio.delete("/decks/:id/items/:itemId", async (c) => {
   return c.json({ deleted: n });
 });
 
+// Comment threads (Liveblocks Comments), one metadata.itemId per thread. Viewers can read; editors can write.
+const commentBody = (text: string) => ({ version: 1 as const, content: [{ type: "paragraph" as const, children: [{ text }] }] });
+
+studio.get("/decks/:id/threads", async (c) => {
+  const id = c.req.param("id");
+  const client = lb();
+  if (!client || !(await assertDeckRole(id, c.var.userId, "viewer"))) return c.json({ threads: [] });
+  const { data } = await client.getThreads({ roomId: roomId(id) });
+  return c.json({
+    threads: data.map((t) => ({
+      id: t.id, itemId: (t.metadata as { itemId?: string }).itemId ?? null, resolved: t.resolved,
+      comments: t.comments.filter((m) => !m.deletedAt).map((m) => ({
+        id: m.id, userId: m.userId, createdAt: m.createdAt,
+        text: ((m.body as { content?: { children?: { text?: string }[] }[] } | undefined)?.content ?? []).map((b) => (b.children ?? []).map((x) => x.text ?? "").join("")).join("\n"),
+      })),
+    })),
+  });
+});
+
+studio.post("/decks/:id/threads", async (c) => {
+  const id = c.req.param("id");
+  const client = lb();
+  if (!client) return c.json({ error: "liveblocks not configured" }, 503);
+  if (!(await assertDeckRole(id, c.var.userId, "editor"))) return c.json({ error: "forbidden" }, 403);
+  const p = z.object({ itemId: z.string().uuid(), threadId: z.string().optional(), text: z.string().trim().min(1).max(2000) }).safeParse(await c.req.json().catch(() => null));
+  if (!p.success) return c.json({ error: "invalid body" }, 400);
+  const body = commentBody(p.data.text);
+  if (p.data.threadId) await client.createComment({ roomId: roomId(id), threadId: p.data.threadId, data: { userId: c.var.userId, body } });
+  else await client.createThread({ roomId: roomId(id), data: { metadata: { itemId: p.data.itemId }, comment: { userId: c.var.userId, body } } });
+  await client.broadcastEvent(roomId(id), { type: "threads-changed", itemId: p.data.itemId }).catch(() => {});
+  return c.json({ ok: true }, 201);
+});
+
 // Personal MCP tokens
 studio.get("/mcp-tokens", async (c) => c.json({ tokens: await listTokens(c.var.userId) }));
 studio.post("/mcp-tokens", async (c) => {

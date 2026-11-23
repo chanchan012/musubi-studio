@@ -17,6 +17,9 @@ importers:
       '@aws-sdk/s3-request-presigner':
         specifier: ^3.1175.0
         version: 3.1175.0
+      '@cfworker/json-schema':
+        specifier: ^4.1.6
+        version: 4.1.6
       '@clerk/backend':
         specifier: ^3.31.4
         version: 3.31.4(react-dom@19.3.1(react@19.3.1))(react@19.3.1)
@@ -25,7 +28,7 @@ importers:
         version: 7.10.7(next@16.4.6(@playwright/test@1.65.1)(@types/node@26.6.6)(react-dom@19.3.1(react@19.3.1))(react@19.3.1))(react-dom@19.3.1(react@19.3.1))(react@19.3.1)
       '@cloudflare/codemode':
         specifier: ^0.5.6
-        version: 0.5.6(@modelcontextprotocol/sdk@1.32.2(zod@4.6.7))(ai@7.0.179(zod@4.6.7))(zod@4.6.7)
+        version: 0.5.6(@modelcontextprotocol/sdk@1.32.2(@cfworker/json-schema@4.1.6)(zod@4.6.7))(ai@7.0.179(zod@4.6.7))(zod@4.6.7)
       '@hono/clerk-auth':
         specifier: ^3.1.1
         version: 3.1.1(hono@4.13.20)(react-dom@19.3.1(react@19.3.1))(react@19.3.1)
@@ -46,7 +49,7 @@ importers:
         version: 3.25.2(@types/json-schema@7.0.15)(zustand@5.1.0(@types/react@19.3.0)(react@19.3.1)(use-sync-external-store@1.7.0(react@19.3.1)))
       '@modelcontextprotocol/sdk':
         specifier: ^1.32.2
-        version: 1.32.2(zod@4.6.7)
+        version: 1.32.2(@cfworker/json-schema@4.1.6)(zod@4.6.7)
       '@neondatabase/serverless':
         specifier: ^1.2.1
         version: 1.2.1
@@ -393,6 +396,9 @@ packages:
   '@aws/lambda-invoke-store@0.3.0':
     resolution: {integrity: sha512-sl4Bm6yiMNYrZKkqqDFWN0UfnWhlS8ivKxrYl+6t0gCLrqr8y3B2IqZZbFRkfaVVp7C/baApyh71P+LeE1A2sQ==}
     engines: {node: '>=18.0.0'}
+
+  '@cfworker/json-schema@4.1.6':
+    resolution: {integrity: sha512-YzVGTHXf4bzlyAL5KAvHYCdNbbt6zM5cYkAgxqxQPDQM6aZ4ShIIN5yJ+6q7YeonnevxT8k/LmD2tJi/jOiKkg==}
 
   '@clerk/backend@2.33.9':
     resolution: {integrity: sha512-W9PQO3oTVmqtcwFspG16PwzO7q/C9uvtLof38B1ZwnDLX+iAuCBy4jtKYxRgOChmzq5owOhNVXG2Uhlykod12A==}
@@ -3894,6 +3900,8 @@ snapshots:
 
   '@aws/lambda-invoke-store@0.3.0': {}
 
+  '@cfworker/json-schema@4.1.6': {}
+
   '@clerk/backend@2.33.9(react-dom@19.3.1(react@19.3.1))(react@19.3.1)':
     dependencies:
       '@clerk/shared': 3.48.1(react-dom@19.3.1(react@19.3.1))(react@19.3.1)
@@ -3957,12 +3965,12 @@ snapshots:
       - react
       - react-dom
 
-  '@cloudflare/codemode@0.5.6(@modelcontextprotocol/sdk@1.32.2(zod@4.6.7))(ai@7.0.179(zod@4.6.7))(zod@4.6.7)':
+  '@cloudflare/codemode@0.5.6(@modelcontextprotocol/sdk@1.32.2(@cfworker/json-schema@4.1.6)(zod@4.6.7))(ai@7.0.179(zod@4.6.7))(zod@4.6.7)':
     dependencies:
       '@types/json-schema': 7.0.15
       acorn: 8.19.0
     optionalDependencies:
-      '@modelcontextprotocol/sdk': 1.32.2(zod@4.6.7)
+      '@modelcontextprotocol/sdk': 1.32.2(@cfworker/json-schema@4.1.6)(zod@4.6.7)
       ai: 7.0.179(zod@4.6.7)
       zod: 4.6.7
 
@@ -4477,7 +4485,7 @@ snapshots:
     transitivePeerDependencies:
       - '@types/json-schema'
 
-  '@modelcontextprotocol/sdk@1.32.2(zod@4.6.7)':
+  '@modelcontextprotocol/sdk@1.32.2(@cfworker/json-schema@4.1.6)(zod@4.6.7)':
     dependencies:
       '@hono/node-server': 2.1.11(hono@4.13.20)
       ajv: 8.20.0
@@ -4496,6 +4504,8 @@ snapshots:
       raw-body: 3.0.2
       zod: 4.6.7
       zod-to-json-schema: 3.25.2(zod@4.6.7)
+    optionalDependencies:
+      '@cfworker/json-schema': 4.1.6
     transitivePeerDependencies:
       - supports-color
 

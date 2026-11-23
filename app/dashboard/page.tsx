@@ -59,6 +59,7 @@ export default async function Dashboard() {
                     </div>
                     <p className="mt-1 text-sm text-muted tabular-nums">{items} items · {mcqs} questions</p>
                     <div className="mt-4 flex gap-2">
+                      <Link href={`/studio/${deck.id}`} className="min-h-10 rounded-lg border border-line px-3 py-2 text-sm font-medium">Open studio</Link>
                       <Link href={`/exam/${deck.id}`} aria-disabled={mcqs === 0}
                         className={`min-h-10 rounded-lg px-3 py-2 text-sm font-medium ${mcqs ? "bg-ink text-paper" : "pointer-events-none bg-line text-muted"}`}>Take exam</Link>
                     </div>

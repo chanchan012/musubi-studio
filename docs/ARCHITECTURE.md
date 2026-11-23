@@ -31,3 +31,14 @@ Keys: `decks/{deckId}/{uuid}-{sanitised-filename}`; exports (M5): `exports/{user
 
 ## Not yet built
 Liveblocks schema, MCP + Code Mode API (M4); Inngest events (M5); rate limits (M4).
+
+## M4: studio, MCP, Code Mode
+| Route | Auth | Purpose |
+|---|---|---|
+| `POST /api/studio/liveblocks-auth` | Clerk + deck membership | Liveblocks token for room `deck:{id}` (viewer = read-only) |
+| `GET/POST /api/studio/decks/:id/items`, `PATCH/DELETE …/:itemId` | Clerk, editor | Item CRUD; broadcasts `items-changed` |
+| `GET/POST /api/studio/decks/:id/threads` | Clerk | Comment threads (Liveblocks Comments, server-side) |
+| `GET/POST/DELETE /api/studio/mcp-tokens` | Clerk | Personal MCP tokens (plaintext shown once, sha256 stored) |
+| `/api/mcp` | Bearer `mus_…` | Code Mode: single `code` tool over the 8 tools (needs `LOADER` binding; falls back to direct tools) |
+| `/api/mcp/direct` | Bearer | The 8 tools directly |
+Rate limits (Upstash sliding window, fail-open): api 60/min per user, mcp 30/min per token.
