@@ -30,15 +30,15 @@ ACL: `src/lib/acl.ts` (`roleAtLeast`), `src/server/auth.ts` (`getDeckRole`, `ass
 Keys: `decks/{deckId}/{uuid}-{sanitised-filename}`; exports (M5): `exports/{userId}/{uuid}.{ext}`. Presign via S3 API (`src/lib/r2.ts`).
 
 ## Not yet built
-Liveblocks schema, MCP + Code Mode API (M4); Inngest events (M5); rate limits (M4).
+Liveblocks schema, MCP API (Clerk OAuth) (M4); Inngest events (M5); rate limits (M4).
 
-## M4: studio, MCP, Code Mode
+## M4: studio, MCP
 | Route | Auth | Purpose |
 |---|---|---|
 | `POST /api/studio/liveblocks-auth` | Clerk + deck membership | Liveblocks token for room `deck:{id}` (viewer = read-only) |
 | `GET/POST /api/studio/decks/:id/items`, `PATCH/DELETE …/:itemId` | Clerk, editor | Item CRUD; broadcasts `items-changed` |
 | `GET/POST /api/studio/decks/:id/threads` | Clerk | Comment threads (Liveblocks Comments, server-side) |
 | `GET/POST/DELETE /api/studio/mcp-tokens` | Clerk | Personal MCP tokens (plaintext shown once, sha256 stored) |
-| `/api/mcp` | Bearer `mus_…` | Code Mode: single `code` tool over the 8 tools (needs `LOADER` binding; falls back to direct tools) |
+| `/api/mcp` | Clerk OAuth token (aud = this URL) or Bearer `mus_…` | 8 Zod tools over Streamable HTTP (`/api/mcp/direct` is an alias) |
 | `/api/mcp/direct` | Bearer | The 8 tools directly |
 Rate limits (Upstash sliding window, fail-open): api 60/min per user, mcp 30/min per token.

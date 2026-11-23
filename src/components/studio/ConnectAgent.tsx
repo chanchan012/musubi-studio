@@ -49,7 +49,7 @@ export function ConnectAgent({ deckId, onClose }: { deckId: string; onClose: () 
         <pre className="mt-1 overflow-x-auto rounded-lg border border-line bg-card p-3 text-xs"><code>{json}</code></pre>
         <button onClick={() => void copy("json", json)} className="mt-1 text-xs underline">{copied === "json" ? "Copied" : "Copy JSON"}</button>
 
-        <p className="mt-4 text-xs text-muted">The default endpoint runs Code Mode: one <code>code</code> tool where the agent writes JavaScript that calls all 8 tools, so a 50-question batch costs one round trip. Use <code>/api/mcp/direct</code> for the plain tool list.</p>
+        <p className="mt-4 text-xs text-muted">Most MCP clients can skip the token: add the URL and sign in with your Musubi account when prompted (OAuth via Clerk). Tokens are for headless agents.</p>
 
         <h3 className="mt-5 text-xs font-medium uppercase tracking-wide text-muted">Your tokens</h3>
         <ul className="mt-1 divide-y divide-line text-sm">
