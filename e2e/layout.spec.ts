@@ -5,7 +5,7 @@ for (const [name, size] of Object.entries(VIEWPORTS)) {
   test.describe(`${name} ${size.width}x${size.height}`, () => {
     test.use({ viewport: size });
 
-    for (const path of ["/", "/sign-in", "/sign-up"]) {
+    for (const path of ["/", "/sign-in", "/sign-up", "/community"]) {
       test(`${path} has no horizontal overflow`, async ({ page }) => {
         await page.goto(path, { waitUntil: "domcontentloaded" });
         await page.waitForTimeout(300);

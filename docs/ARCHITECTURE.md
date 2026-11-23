@@ -27,10 +27,10 @@ users, feynman_notes, decks, deck_members(role owner|editor|viewer), items(kind 
 ACL: `src/lib/acl.ts` (`roleAtLeast`), `src/server/auth.ts` (`getDeckRole`, `assertDeckRole`) — every deck query goes through deck_members.
 
 ## R2 (`musubi-assets`, binding `R2`, private)
-Keys: `decks/{deckId}/{uuid}-{sanitised-filename}`; exports (M5): `exports/{userId}/{uuid}.{ext}`. Presign via S3 API (`src/lib/r2.ts`).
+Keys: `decks/{deckId}/{uuid}-{sanitised-filename}`; exports: `exports/{deckId}/{exportId}.{ext}`. Presign via S3 API (`src/lib/r2.ts`).
 
 ## Not yet built
-Liveblocks schema, MCP API (Clerk OAuth) (M4); Inngest events (M5); rate limits (M4).
+Playwright multiplayer + mock-exam E2E and the accessibility pass (M6).
 
 ## M4: studio, MCP
 | Route | Auth | Purpose |
@@ -42,3 +42,17 @@ Liveblocks schema, MCP API (Clerk OAuth) (M4); Inngest events (M5); rate limits 
 | `/api/mcp` | Clerk OAuth token (aud = this URL) or Bearer `mus_…` | 8 Zod tools over Streamable HTTP (`/api/mcp/direct` is an alias) |
 | `/api/mcp/direct` | Bearer | The 8 tools directly |
 Rate limits (Upstash sliding window, fail-open): api 60/min per user, mcp 30/min per token.
+
+## M5: community + Inngest
+| Route | Auth | Purpose |
+|---|---|---|
+| `GET /api/community`, `GET /api/community/:id` | public | List/search (q, track, subject, sort top/new/verified); post detail with item analytics (answers are never exposed) |
+| `POST /api/community/publish` | Clerk, deck owner | Publish or re-publish (one post per deck) |
+| `POST /api/community/:id/vote` | Clerk | value -1/0/1, score = sum of votes |
+| `POST /api/community/:id/clone` | Clerk | Fork deck + items into the caller's library with attribution |
+| `POST /api/community/items/:id/errata`, `POST /api/community/errata/:id/resolve` | Clerk / deck owner | File and resolve errata |
+| `POST /api/exports`, `GET /api/exports/:id` | Clerk, viewer+ | Queue an Inngest export; poll until the R2 object exists, then presigned URL |
+| `/api/inngest` | Inngest signing key | Serves the functions below (client built per request because Workers env is request-scoped) |
+
+Inngest functions (`src/inngest/functions.ts`): `export-deck` (event `deck/export.requested`), `recalc-stats` (cron `0 */6 * * *` or `stats/recalc.requested`: rebuilds `item_stats` from `attempts`, then sets `community_posts.verified`), `snapshot-deck` (`deck/snapshot.requested`) and `snapshot-recent` (cron 03:00 fan-out over decks edited in the last 7 days). Pure analytics and export formatting live in `src/lib/analytics.ts`.
+Rate limits: community writes 20 per 5 min per user, exports 10 per 5 min.
