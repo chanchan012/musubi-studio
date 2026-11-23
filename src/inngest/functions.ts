@@ -1,9 +1,8 @@
 import { Inngest } from "inngest";
-import { PutObjectCommand } from "@aws-sdk/client-s3";
 import { and, desc, eq, gte, inArray, sql } from "drizzle-orm";
 import * as Y from "yjs";
 import { getDb, schema } from "@/db/client";
-import { r2Client } from "@/lib/r2";
+import { putText } from "@/lib/r2-binding";
 import { EXPORT_FORMATS, countsFromGroups, isVerified, render, type ExportFormat, type ExportItem } from "@/lib/analytics";
 import { lb, roomId } from "@/server/liveblocks";
 
@@ -30,9 +29,7 @@ export function buildInngest() {
       });
       const key = await step.run("write-r2", async () => {
         const k = exportKey(deckId, exportId, format);
-        await r2Client().send(new PutObjectCommand({
-          Bucket: process.env.R2_BUCKET_NAME ?? "musubi-assets", Key: k, Body: render(format, items), ContentType: EXPORT_FORMATS[format].mime,
-        }));
+        await putText(k, render(format, items), EXPORT_FORMATS[format].mime);
         return k;
       });
       return { key, count: items.length };

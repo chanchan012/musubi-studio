@@ -1,10 +1,10 @@
 import { Hono } from "hono";
 import { z } from "zod";
-import { HeadObjectCommand } from "@aws-sdk/client-s3";
 import { assertDeckRole, requireUser, type Vars } from "../auth";
 import { limit } from "../ratelimit";
 import { buildInngest, exportKey } from "@/inngest/functions";
-import { r2Client, presignGet } from "@/lib/r2";
+import { presignGet } from "@/lib/r2";
+import { exists } from "@/lib/r2-binding";
 import { EXPORT_FORMATS } from "@/lib/analytics";
 
 export const exportsRoute = new Hono<{ Variables: Vars }>();
@@ -29,10 +29,6 @@ exportsRoute.get("/:exportId", async (c) => {
   if (!q.success || !z.string().uuid().safeParse(exportId).success) return c.json({ error: "invalid" }, 400);
   if (!(await assertDeckRole(q.data.deckId, c.var.userId, "viewer"))) return c.json({ error: "not found" }, 404);
   const key = exportKey(q.data.deckId, exportId, q.data.format);
-  try {
-    await r2Client().send(new HeadObjectCommand({ Bucket: process.env.R2_BUCKET_NAME ?? "musubi-assets", Key: key }));
-  } catch {
-    return c.json({ status: "pending" });
-  }
+  if (!(await exists(key).catch(() => false))) return c.json({ status: "pending" });
   return c.json({ status: "ready", url: await presignGet(key), filename: `deck.${EXPORT_FORMATS[q.data.format].ext}` });
 });
