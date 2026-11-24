@@ -23,7 +23,7 @@ export function ErratumForm({ itemId }: { itemId: string }) {
       <input id={`err-${itemId}`} value={body} onChange={(e) => setBody(e.target.value)} minLength={5} maxLength={1000} required placeholder="What is wrong with this item?"
         className="min-h-11 min-w-0 flex-1 rounded-lg border border-line bg-paper px-3 text-sm text-ink" />
       <button disabled={state === "busy" || body.trim().length < 5} className="min-h-11 rounded-lg bg-ink px-3 text-sm text-paper disabled:opacity-40">Send</button>
-      {state === "error" && <span role="alert" className="self-center text-seal">Could not send.</span>}
+      {state === "error" && <span role="alert" className="self-center text-seal-ink">Could not send.</span>}
     </form>
   );
 }

@@ -26,7 +26,7 @@ function Field({ label, value, onCommit, readOnly, multiline, onFocusChange }: {
 }
 
 const Badge = ({ ai }: { ai: boolean }) => (
-  <span className={`shrink-0 rounded-sm border px-1.5 py-0.5 text-[10px] font-semibold ${ai ? "border-seal text-seal" : "border-line text-muted"}`}>{ai ? "AI" : "Human"}</span>
+  <span className={`shrink-0 rounded-sm border px-1.5 py-0.5 text-[10px] font-semibold ${ai ? "border-seal text-seal-ink" : "border-line text-muted"}`}>{ai ? "AI" : "Human"}</span>
 );
 
 export function StudioClient({ deckId, title, role, initialItems, liveblocksReady, backHref }: { deckId: string; title: string; role: "owner" | "editor" | "viewer"; initialItems: ItemView[]; liveblocksReady: boolean; backHref: string }) {
@@ -89,11 +89,11 @@ export function StudioClient({ deckId, title, role, initialItems, liveblocksRead
   return (
     <div className="flex h-dvh w-dvw flex-col overflow-hidden">
       <header className="flex items-center gap-2 border-b border-line px-3 py-2 sm:px-5">
-        <Link href={backHref} aria-label="Back to dashboard" className="flex min-h-10 items-center gap-1 font-semibold"><span aria-hidden className="text-xl text-seal">結</span><span className="hidden sm:inline">Musubi</span></Link>
+        <Link href={backHref} title="Back to dashboard" className="flex min-h-10 items-center gap-1 font-semibold"><span aria-hidden className="text-xl text-seal-ink">結</span><span className="sr-only sm:not-sr-only">Musubi</span></Link>
         <h1 className="min-w-0 flex-1 truncate text-sm font-medium sm:text-base">{title}</h1>
-        <div className="flex -space-x-2" aria-label={`${others.length} other collaborator${others.length === 1 ? "" : "s"} online`}>
+        <div className="flex -space-x-2" role="group" aria-label={`${others.length} other collaborator${others.length === 1 ? "" : "s"} online`}>
           {others.slice(0, 4).map((o) => (
-            <span key={o.connectionId} title={(o.info as { name?: string })?.name} className="grid size-7 place-items-center rounded-full border-2 border-paper bg-sage text-[11px] font-semibold text-white">
+            <span key={o.connectionId} title={(o.info as { name?: string })?.name} className="grid size-7 place-items-center rounded-full border-2 border-paper bg-sage-fill text-[11px] font-semibold text-white">
               {((o.info as { name?: string })?.name ?? "?").slice(0, 1).toUpperCase()}
             </span>
           ))}
@@ -101,7 +101,7 @@ export function StudioClient({ deckId, title, role, initialItems, liveblocksRead
         <span className={`hidden text-xs sm:inline ${status === "connected" ? "text-sage" : "text-muted"}`} role="status">{liveblocksReady ? status : "offline"}</span>
         <button onClick={() => void s.undo()} disabled={!canUndo || s.busy} title={last} aria-label="Undo" className="min-h-10 min-w-10 rounded-lg border border-line text-sm disabled:opacity-40">↶</button>
         <button onClick={() => void s.redo()} disabled={!canRedo || s.busy} aria-label="Redo" className="min-h-10 min-w-10 rounded-lg border border-line text-sm disabled:opacity-40">↷</button>
-        {canEdit && <button onClick={() => setConnect(true)} className="min-h-10 rounded-lg bg-seal px-3 text-sm font-medium text-white">Connect agent</button>}
+        {canEdit && <button onClick={() => setConnect(true)} className="min-h-10 rounded-lg bg-seal-fill px-3 text-sm font-medium text-white">Connect agent</button>}
       </header>
 
       <div className="flex border-b border-line md:hidden" role="tablist">
@@ -143,8 +143,8 @@ export function StudioClient({ deckId, title, role, initialItems, liveblocksRead
               <div className="flex items-center gap-2">
                 <Badge ai={item.authorKind === "ai"} />
                 <span className="text-xs text-muted">{item.kind === "mcq" ? "Multiple choice" : "Flashcard"}</span>
-                {lockedBy && <span className="rounded-sm bg-seal/10 px-1.5 py-0.5 text-xs text-seal" role="status">{(lockedBy.info as { name?: string })?.name ?? "Someone"} is editing</span>}
-                {canEdit && <button onClick={() => void s.removeItem(item.id)} className="ml-auto min-h-10 text-xs text-seal underline">Delete</button>}
+                {lockedBy && <span className="rounded-sm bg-seal/10 px-1.5 py-0.5 text-xs text-seal-ink" role="status">{(lockedBy.info as { name?: string })?.name ?? "Someone"} is editing</span>}
+                {canEdit && <button onClick={() => void s.removeItem(item.id)} className="ml-auto min-h-10 text-xs text-seal-ink underline">Delete</button>}
               </div>
 
               {item.kind === "mcq" ? (

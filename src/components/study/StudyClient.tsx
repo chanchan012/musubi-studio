@@ -128,7 +128,7 @@ export function StudyClient({ deckId, title }: { deckId?: string; title: string 
   return (
     <div className="flex h-dvh w-full flex-col overflow-hidden">
       <header className="flex items-center gap-3 border-b border-line px-4 py-3 sm:px-6">
-        <Link href="/dashboard" className="flex items-center gap-2 font-semibold"><span aria-hidden className="text-xl text-seal">結</span><span className="sr-only">Musubi dashboard</span></Link>
+        <Link href="/dashboard" className="flex items-center gap-2 font-semibold"><span aria-hidden className="text-xl text-seal-ink">結</span><span className="sr-only">Musubi dashboard</span></Link>
         <div className="min-w-0 flex-1">
           <p className="truncate text-xs uppercase tracking-widest text-muted">{title}</p>
           <p className="text-sm font-medium tabular-nums">{queue ? (done ? "Queue clear" : `Card ${idx + 1} / ${queue.length}`) : "Loading…"}</p>
@@ -153,7 +153,7 @@ export function StudyClient({ deckId, title }: { deckId?: string; title: string 
         <div className="mx-auto max-w-2xl space-y-4">
           {focus?.phase === "break" && <p role="status" className="rounded-lg border border-sage px-3 py-2 text-sm text-sage">Break time. Step away; your queue will wait.</p>}
           {cadence === "flowtime" && ratings.length >= 10 && <p role="status" className="rounded-lg border border-line px-3 py-2 text-sm text-muted">You have been going a while. A {Math.round(flowBreak / 60000)}-minute break would help.</p>}
-          {error && <p role="alert" className="text-sm text-seal">{error}</p>}
+          {error && <p role="alert" className="text-sm text-seal-ink">{error}</p>}
           <p className="text-sm text-muted">{MODES.find((m) => m.id === mode)?.hint}</p>
 
           {queue === null && <p className="text-muted">Loading your queue…</p>}
@@ -208,7 +208,7 @@ export function StudyClient({ deckId, title }: { deckId?: string; title: string 
                   {blurtRes && (
                     <p className="text-sm tabular-nums">
                       You recalled {Math.round(blurtRes.coverage * 100)}% of the key terms
-                      {blurtRes.missed.length > 0 && <> · missed: <span className="text-seal">{blurtRes.missed.slice(0, 8).join(", ")}</span></>}.
+                      {blurtRes.missed.length > 0 && <> · missed: <span className="text-seal-ink">{blurtRes.missed.slice(0, 8).join(", ")}</span></>}.
                       Suggested: <strong>{RATING_LABELS[blurtRes.suggested]}</strong>
                     </p>
                   )}

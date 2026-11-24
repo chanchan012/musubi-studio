@@ -1,4 +1,4 @@
-import { auth } from "@clerk/nextjs/server";
+import { currentUserId } from "@/server/identity";
 import { notFound, redirect } from "next/navigation";
 import { eq } from "drizzle-orm";
 import { z } from "zod";
@@ -12,7 +12,7 @@ export const dynamic = "force-dynamic";
 export default async function StudioPage({ params }: { params: Promise<{ id: string }> }) {
   const { id } = await params;
   if (!z.string().uuid().safeParse(id).success) notFound();
-  const { userId } = await auth();
+  const userId = await currentUserId();
   if (!userId) redirect("/sign-in");
   const role = await getDeckRole(id, userId);
   if (!role) notFound();

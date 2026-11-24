@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { auth } from "@clerk/nextjs/server";
+import { currentUserId } from "@/server/identity";
 import { redirect } from "next/navigation";
 import { and, count, desc, eq, sql } from "drizzle-orm";
 import { UserButton } from "@clerk/nextjs";
@@ -15,7 +15,7 @@ import type { ReviewRow } from "@/lib/fsrs";
 export const dynamic = "force-dynamic";
 
 export default async function Dashboard() {
-  const { userId } = await auth();
+  const userId = await currentUserId();
   if (!userId) redirect("/sign-in");
   const db = getDb();
 
@@ -57,7 +57,7 @@ export default async function Dashboard() {
   return (
     <div className="flex h-dvh w-full flex-col overflow-hidden">
       <header className="flex items-center gap-3 border-b border-line px-4 py-3 sm:px-6">
-        <Link href="/" className="flex items-center gap-2 font-semibold"><span aria-hidden className="text-xl text-seal">結</span> Musubi</Link>
+        <Link href="/" className="flex items-center gap-2 font-semibold"><span aria-hidden className="text-xl text-seal-ink">結</span> Musubi</Link>
         <nav className="ml-auto flex items-center gap-3 text-sm">
           <Link href="/community" className="rounded-lg px-3 py-2 hover:bg-card">Community</Link>
           <UserButton />

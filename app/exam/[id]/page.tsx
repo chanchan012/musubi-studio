@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { auth } from "@clerk/nextjs/server";
+import { currentUserId } from "@/server/identity";
 import { notFound, redirect } from "next/navigation";
 import { and, eq } from "drizzle-orm";
 import { z } from "zod";
@@ -15,7 +15,7 @@ export default async function ExamPage({ params, searchParams }: { params: Promi
   const { id } = await params;
   const sp = await searchParams;
   if (!z.string().uuid().safeParse(id).success) notFound();
-  const { userId } = await auth();
+  const userId = await currentUserId();
   if (!userId) redirect("/sign-in");
   if (!(await getDeckRole(id, userId))) notFound();
 

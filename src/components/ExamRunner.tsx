@@ -126,16 +126,16 @@ export function ExamRunner({ title, questions, submit, onTagCause, embedded }: P
           </p>
         </div>
         <p className="text-xs text-muted tabular-nums" aria-label="Answered">{prog.answered}/{prog.total} answered · {prog.flagged} flagged</p>
-        <p aria-live="off" data-testid="stopwatch" className={`min-w-[3.5rem] rounded-md border px-2 py-1 text-center text-lg font-semibold tabular-nums ${nudge ? "border-seal text-seal" : "border-line"}`}>
+        <p aria-live="off" data-testid="stopwatch" className={`min-w-[3.5rem] rounded-md border px-2 py-1 text-center text-lg font-semibold tabular-nums ${nudge ? "border-seal text-seal-ink" : "border-line"}`}>
           {fmt(elapsed)}
         </p>
       </header>
 
       {nudge && (
         <div role="status" className="flex items-center gap-3 border-b border-seal/40 bg-seal/10 px-4 py-2 text-sm sm:px-6">
-          <span className="font-medium text-seal">90 seconds on this one.</span>
+          <span className="font-medium text-seal-ink">90 seconds on this one.</span>
           <span className="flex-1 text-muted">Flag it for Pass 2 and keep your pace.</span>
-          <button onClick={markAndMove} className="rounded-md bg-seal px-3 py-1 text-sm font-medium text-white">Mark &amp; move</button>
+          <button onClick={markAndMove} className="rounded-md bg-seal-fill px-3 py-1 text-sm font-medium text-white">Mark &amp; move</button>
         </div>
       )}
 
@@ -144,7 +144,7 @@ export function ExamRunner({ title, questions, submit, onTagCause, embedded }: P
           <div className="mb-3 flex flex-wrap items-center gap-2 text-xs text-muted">
             {q.blueprint && <span className="rounded-sm bg-card px-2 py-0.5 ring-1 ring-line">{q.blueprint}</span>}
             {q.difficulty && <span className="rounded-sm bg-card px-2 py-0.5 capitalize ring-1 ring-line">{q.difficulty}</span>}
-            {a.flagged && <span className="rounded-sm bg-seal/10 px-2 py-0.5 text-seal ring-1 ring-seal/40">Flagged for Pass 2</span>}
+            {a.flagged && <span className="rounded-sm bg-seal/10 px-2 py-0.5 text-seal-ink ring-1 ring-seal/40">Flagged for Pass 2</span>}
           </div>
           <p className="text-lg leading-relaxed">{q.stem}</p>
 
@@ -153,7 +153,7 @@ export function ExamRunner({ title, questions, submit, onTagCause, embedded }: P
               const struck = a.eliminated.includes(i);
               const picked = a.choice === i;
               return (
-                <li key={i}>
+                <li key={i} role="presentation">
                   <div className={`flex items-stretch overflow-hidden rounded-lg border bg-card transition ${picked ? "border-ink ring-1 ring-ink" : "border-line"} ${cursor === i ? "outline outline-1 outline-offset-2 outline-muted/50" : ""}`}>
                     <button
                       role="radio" aria-checked={picked} aria-label={`Option ${LETTERS[i]}${struck ? " (eliminated)" : ""}`}
@@ -166,7 +166,7 @@ export function ExamRunner({ title, questions, submit, onTagCause, embedded }: P
                     <button
                       onClick={() => { setCursor(i); setState((s) => S.toggleStrike(s, id, i)); }}
                       aria-pressed={struck} aria-label={`Eliminate option ${LETTERS[i]}`} title="Eliminate (X)"
-                      className={`w-12 shrink-0 border-l border-line text-sm font-semibold ${struck ? "bg-seal/10 text-seal" : "text-muted"}`}
+                      className={`w-12 shrink-0 border-l border-line text-sm font-semibold ${struck ? "bg-seal/10 text-seal-ink" : "text-muted"}`}
                     >✕</button>
                   </div>
                   {struck && (
@@ -174,7 +174,7 @@ export function ExamRunner({ title, questions, submit, onTagCause, embedded }: P
                       {TRAP_TAGS.map((t) => (
                         <button key={t} onClick={() => setState((s) => S.setTrap(s, id, i, a.trap[i] === t ? null : t))}
                           aria-pressed={a.trap[i] === t}
-                          className={`rounded-full border px-2 py-0.5 text-[11px] ${a.trap[i] === t ? "border-seal bg-seal/10 text-seal" : "border-line text-muted"}`}>
+                          className={`rounded-full border px-2 py-0.5 text-[11px] ${a.trap[i] === t ? "border-seal bg-seal/10 text-seal-ink" : "border-line text-muted"}`}>
                           {TRAP_LABELS[t]}
                         </button>
                       ))}
@@ -197,13 +197,13 @@ export function ExamRunner({ title, questions, submit, onTagCause, embedded }: P
               ))}
             </div>
           </fieldset>
-          {error && <p role="alert" className="mt-4 text-sm text-seal">{error}</p>}
+          {error && <p role="alert" className="mt-4 text-sm text-seal-ink">{error}</p>}
         </div>
       </main>
 
       <footer className="flex items-center gap-2 border-t border-line bg-paper px-4 py-3 pb-[max(0.75rem,env(safe-area-inset-bottom))] sm:px-6">
         <button onClick={() => setState((s) => S.toggleFlag(s, id))} aria-pressed={a.flagged}
-          className={`min-h-11 rounded-lg border px-3 text-sm ${a.flagged ? "border-seal text-seal" : "border-line"}`}>⚑ Flag</button>
+          className={`min-h-11 rounded-lg border px-3 text-sm ${a.flagged ? "border-seal text-seal-ink" : "border-line"}`}>⚑ Flag</button>
         <p className="hidden flex-1 text-center text-xs text-muted md:block">A–E choose · X strike · 1–3 certainty · F flag · Enter next</p>
         <span className="flex-1 md:hidden" />
         <button onClick={markAndMove} disabled={busy} className="min-h-11 rounded-lg border border-line px-3 text-sm">Mark &amp; move</button>
@@ -253,9 +253,9 @@ function Results({ title, result, qById, tagged, onTag, embedded }: {
                 <li key={r.itemId} className="rounded-lg border border-line bg-card p-4">
                   <div className="flex flex-wrap items-center gap-2 text-xs">
                     <span className="font-semibold tabular-nums">Q{n + 1}</span>
-                    <span className={r.correct ? "text-sage" : "text-seal"}>{r.correct ? "Correct" : "Incorrect"}</span>
+                    <span className={r.correct ? "text-sage" : "text-seal-ink"}>{r.correct ? "Correct" : "Incorrect"}</span>
                     <span className="text-muted">C{r.certainty} · {r.marks > 0 ? "+" : ""}{r.marks}</span>
-                    {r.flag === "dangerous_misconception" && <span className="rounded-sm bg-seal px-1.5 py-0.5 font-medium text-white">Dangerous misconception</span>}
+                    {r.flag === "dangerous_misconception" && <span className="rounded-sm bg-seal-fill px-1.5 py-0.5 font-medium text-white">Dangerous misconception</span>}
                     {r.flag === "lucky_guess" && <span className="rounded-sm bg-ink px-1.5 py-0.5 font-medium text-paper">Lucky guess</span>}
                   </div>
                   <p className="mt-2 text-sm leading-relaxed">{q?.stem}</p>
@@ -263,7 +263,7 @@ function Results({ title, result, qById, tagged, onTag, embedded }: {
                     <div className="mt-3 space-y-1 text-sm">
                       <p><span className="font-medium text-sage">Key {r.answerIdx !== null ? LETTERS[r.answerIdx] : ""}:</span> {r.rationales.key}</p>
                       {r.choice !== null && r.choice !== r.answerIdx && r.rationales.options[r.choice] && (
-                        <p><span className="font-medium text-seal">Your pick {LETTERS[r.choice]}:</span> {r.rationales.options[r.choice]}</p>
+                        <p><span className="font-medium text-seal-ink">Your pick {LETTERS[r.choice]}:</span> {r.rationales.options[r.choice]}</p>
                       )}
                     </div>
                   )}

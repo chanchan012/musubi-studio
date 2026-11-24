@@ -30,7 +30,7 @@ export function Threads({ deckId, itemId, canWrite, tick }: { deckId: string; it
         {threads.map((t) => (
           <li key={t.id} className="rounded-lg border border-line bg-card p-2 text-sm">
             {t.comments.map((c) => <p key={c.id} className="break-words py-0.5">{c.text}</p>)}
-            {canWrite && text.trim() && <button onClick={() => void send(t.id)} className="mt-1 text-xs text-seal underline">Reply with draft</button>}
+            {canWrite && text.trim() && <button onClick={() => void send(t.id)} className="mt-1 text-xs text-seal-ink underline">Reply with draft</button>}
           </li>
         ))}
       </ul>

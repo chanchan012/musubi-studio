@@ -36,7 +36,7 @@ export function ConnectAgent({ deckId, onClose }: { deckId: string; onClose: () 
 
         <div className="mt-4 flex gap-2">
           <input value={name} onChange={(e) => setName(e.target.value)} aria-label="Token name" className="min-h-10 min-w-0 flex-1 rounded-lg border border-line bg-card px-3 text-sm" />
-          <button onClick={() => void create()} className="min-h-10 rounded-lg bg-seal px-3 text-sm font-medium text-white">New token</button>
+          <button onClick={() => void create()} className="min-h-10 rounded-lg bg-seal-fill px-3 text-sm font-medium text-white">New token</button>
         </div>
 
         {fresh && <p className="mt-3 rounded-lg border border-sage/50 bg-sage/10 p-2 text-sm">Copy it now, it is shown once: <code className="break-all">{fresh}</code></p>}
@@ -56,7 +56,7 @@ export function ConnectAgent({ deckId, onClose }: { deckId: string; onClose: () 
           {tokens.map((t) => (
             <li key={t.id} className="flex items-center gap-2 py-2">
               <span className="min-w-0 flex-1 truncate">{t.name}{t.revokedAt && <span className="ml-2 text-xs text-muted">revoked</span>}</span>
-              {!t.revokedAt && <button onClick={() => void revoke(t.id)} className="text-xs text-seal underline">Revoke</button>}
+              {!t.revokedAt && <button onClick={() => void revoke(t.id)} className="text-xs text-seal-ink underline">Revoke</button>}
             </li>
           ))}
           {tokens.length === 0 && <li className="py-2 text-muted">No tokens yet.</li>}
