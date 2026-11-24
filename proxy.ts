@@ -1,7 +1,7 @@
 import { clerkMiddleware, createRouteMatcher } from "@clerk/nextjs/server";
 import { NextResponse } from "next/server";
 
-const isProtected = createRouteMatcher(["/dashboard(.*)", "/studio(.*)", "/exam(.*)"]);
+const isProtected = createRouteMatcher(["/dashboard(.*)", "/studio(.*)", "/exam(.*)", "/study(.*)"]);
 const isPublicApi = createRouteMatcher(["/api/health"]);
 
 const withClerk = clerkMiddleware(async (auth, req) => {

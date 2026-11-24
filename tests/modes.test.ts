@@ -76,3 +76,23 @@ describe("blurting + Feynman", () => {
     expect(needsFeynman(3, 2)).toBe(true);
   });
 });
+
+import { blurtTarget, faceOf, type StudyItem } from "@/lib/study-card";
+const base: StudyItem = { id: "1", kind: "card", front: null, back: null, cloze: null, mnemonic: null, pearl: null, diagramKey: null, compareTable: null, stem: null, options: null, answerIdx: null, rationales: null, blueprint: null };
+describe("study card faces", () => {
+  it("cloze hides the first deletion and reveals it on the back", () => {
+    const f = faceOf({ ...base, cloze: "{{c1::Aspirin}} inhibits {{c2::COX-1}}" });
+    expect(f.prompt).toBe("[…] inhibits COX-1");
+    expect(f.answer).toBe("Aspirin inhibits COX-1");
+  });
+  it("mcq flips to the key with rationale", () => {
+    const f = faceOf({ ...base, kind: "mcq", stem: "Q?", options: ["a", "b"], answerIdx: 1, rationales: { key: "because", options: [] } });
+    expect(f.options).toEqual(["a", "b"]);
+    expect(f.answer).toBe("B. b");
+    expect(blurtTarget({ ...base, kind: "mcq", stem: "Q?", options: ["a", "b"], answerIdx: 1, rationales: { key: "because", options: [] } })).toContain("because");
+  });
+  it("plain card passes front/back and extras", () => {
+    const f = faceOf({ ...base, front: "F", back: "B", pearl: "P", mnemonic: "M" });
+    expect([f.prompt, f.answer, f.extra]).toEqual(["F", "B", ["P", "Mnemonic: M"]]);
+  });
+});

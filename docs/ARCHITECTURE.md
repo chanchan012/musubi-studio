@@ -56,3 +56,6 @@ Rate limits (Upstash sliding window, fail-open): api 60/min per user, mcp 30/min
 
 Inngest functions (`src/inngest/functions.ts`): `export-deck` (event `deck/export.requested`), `recalc-stats` (cron `0 */6 * * *` or `stats/recalc.requested`: rebuilds `item_stats` from `attempts`, then sets `community_posts.verified`), `snapshot-deck` (`deck/snapshot.requested`) and `snapshot-recent` (cron 03:00 fan-out over decks edited in the last 7 days). Pure analytics and export formatting live in `src/lib/analytics.ts`.
 Rate limits: community writes 20 per 5 min per user, exports 10 per 5 min.
+
+## Study screens
+`app/study/[id]` (and `/study` for all decks) are server shells (Clerk + ACL) around `StudyClient`, which talks to `/api/study/{queue,review,stats,feynman}` and `/api/uploads/url` (diagram presign). Card faces come from `src/lib/study-card.ts` (cloze hides the first deletion; MCQs flip to key + rationale). `/e2e/study` is a Playwright-only harness that 404s unless `E2E_NO_AUTH=1`.

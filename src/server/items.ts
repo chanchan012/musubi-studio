@@ -84,3 +84,14 @@ export async function weakTopics(userId: string, deckId: string, limit = 8) {
     group by 1 having count(*) >= 1 order by error_rate desc, attempts desc limit ${limit}`);
   return (res.rows ?? res) as { topic: string; attempts: number; error_rate: number }[];
 }
+
+/** Weakest blueprint topics across every deck the user belongs to (feeds the dashboard radar). */
+export async function weakTopicsAll(userId: string, limit = 8) {
+  const res = await getDb().execute(sql`
+    select coalesce(i.blueprint, 'untagged') as topic, count(*)::int as attempts,
+           avg(case when a.correct then 0 else 1 end)::float as error_rate
+    from attempts a join items i on i.id = a.item_id
+    where a.user_id = ${userId}
+    group by 1 order by error_rate desc, attempts desc limit ${limit}`);
+  return (res.rows ?? res) as { topic: string; attempts: number; error_rate: number }[];
+}
