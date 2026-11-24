@@ -2,13 +2,14 @@
 
 :root {
   --paper: #faf8f5; --ink: #141413; --seal: #d94e34; --sage: #2e7d5b;
+  --seal-ink: #b8381f; /* vermilion that passes AA as text on paper */ --seal-fill: #b8381f; /* button fill under white text */ --sage-fill: #2e7d5b;
   --card: #ffffff; --line: #e4dfd6; --muted: #6b675f;
 }
 @media (prefers-color-scheme: dark) {
-  :root { --paper: #121316; --ink: #eceae4; --card: #1a1b20; --line: #2a2c33; --muted: #9a978f; }
+  :root { --paper: #121316; --ink: #eceae4; --card: #1a1b20; --line: #2a2c33; --muted: #9a978f; --seal-ink: #f0765d; }
 }
 @theme inline {
-  --color-paper: var(--paper); --color-ink: var(--ink); --color-seal: var(--seal);
+  --color-paper: var(--paper); --color-ink: var(--ink); --color-seal: var(--seal); --color-seal-ink: var(--seal-ink); --color-seal-fill: var(--seal-fill); --color-sage-fill: var(--sage-fill);
   --color-sage: var(--sage); --color-card: var(--card); --color-line: var(--line); --color-muted: var(--muted);
 }
 html, body { background: var(--paper); color: var(--ink); }

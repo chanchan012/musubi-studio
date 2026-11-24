@@ -36,7 +36,7 @@ export function PostActions({ postId, score, myVote, signedIn }: { postId: strin
       <span className="min-w-8 text-center text-sm tabular-nums" aria-live="polite">{s}</span>
       <button aria-label="Downvote" aria-pressed={v === -1} disabled={busy} onClick={() => cast(-1)} className={`${btn} ${v === -1 ? "bg-ink text-paper" : "bg-card"}`}>▼</button>
       <button disabled={busy} onClick={fork} className="min-h-11 rounded-lg bg-ink px-4 text-sm font-medium text-paper disabled:opacity-40">Fork to my library</button>
-      {msg && <span role="alert" className="text-sm text-seal">{msg}</span>}
+      {msg && <span role="alert" className="text-sm text-seal-ink">{msg}</span>}
     </div>
   );
 }

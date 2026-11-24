@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { auth } from "@clerk/nextjs/server";
+import { currentUserId } from "@/server/identity";
 import { facets, listPosts } from "@/server/community";
 
 export const dynamic = "force-dynamic";
@@ -9,14 +9,14 @@ type SP = { q?: string; track?: string; subject?: string; sort?: string };
 
 export default async function CommunityPage({ searchParams }: { searchParams: Promise<SP> }) {
   const sp = await searchParams;
-  const userId = await auth().then((a) => a.userId).catch(() => null); // public page: signed-out (or no middleware) is fine
+  const userId = await currentUserId(); // public page: signed-out is fine
   const sort = sp.sort === "new" || sp.sort === "verified" ? sp.sort : "top";
   const [posts, f] = await Promise.all([listPosts({ q: sp.q, track: sp.track, subject: sp.subject, sort }), facets()]);
 
   return (
     <div className="flex h-dvh w-full flex-col overflow-hidden">
       <header className="flex items-center gap-3 border-b border-line px-4 py-3 sm:px-6">
-        <Link href="/" className="flex items-center gap-2 font-semibold"><span aria-hidden className="text-xl text-seal">結</span> Musubi</Link>
+        <Link href="/" className="flex items-center gap-2 font-semibold"><span aria-hidden className="text-xl text-seal-ink">結</span> Musubi</Link>
         <nav className="ml-auto flex items-center gap-3 text-sm">
           <Link href={userId ? "/dashboard" : "/sign-in"} className="rounded-lg px-3 py-2 hover:bg-card">{userId ? "Dashboard" : "Sign in"}</Link>
         </nav>
@@ -50,7 +50,7 @@ export default async function CommunityPage({ searchParams }: { searchParams: Pr
                   <Link href={`/community/${p.id}`} className="block h-full rounded-xl border border-line bg-card p-4 hover:border-ink">
                     <div className="flex items-start gap-2">
                       <h2 className="min-w-0 flex-1 break-words font-medium">{p.title}</h2>
-                      {p.verified && <span className="shrink-0 rounded-sm bg-sage px-1.5 py-0.5 text-[11px] font-medium text-paper">Verified</span>}
+                      {p.verified && <span className="shrink-0 rounded-sm bg-sage-fill px-1.5 py-0.5 text-[11px] font-medium text-white">Verified</span>}
                     </div>
                     <p className="mt-1 line-clamp-2 text-sm text-muted">{p.description || p.topic || "No description."}</p>
                     <p className="mt-2 text-xs text-muted tabular-nums">{p.track}{p.subject ? ` · ${p.subject}` : ""} · {p.items} items · {p.score >= 0 ? "+" : ""}{p.score} · by {p.publisher ?? "anonymous"}</p>

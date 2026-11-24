@@ -59,3 +59,6 @@ Rate limits: community writes 20 per 5 min per user, exports 10 per 5 min.
 
 ## Study screens
 `app/study/[id]` (and `/study` for all decks) are server shells (Clerk + ACL) around `StudyClient`, which talks to `/api/study/{queue,review,stats,feynman}` and `/api/uploads/url` (diagram presign). Card faces come from `src/lib/study-card.ts` (cloze hides the first deletion; MCQs flip to key + rationale). `/e2e/study` is a Playwright-only harness that 404s unless `E2E_NO_AUTH=1`.
+
+## E2E harness
+`E2E_NO_AUTH=1` (set only by the Playwright web server, never in production) bypasses Clerk: server components use `src/server/identity.ts` (`e2e_user` cookie or `E2E_USER_ID`) and `requireUser` reads the same cookie. `e2e/global-setup.ts` seeds and cleans fixtures in Neon. In the Claude sandbox run with `NODE_USE_ENV_PROXY=1 NODE_EXTRA_CA_CERTS=/root/.ccr/ca-bundle.crt pnpm playwright test --trace off` (Node's fetch ignores the proxy otherwise) and allow `api.c-6.us-east-2.aws.neon.tech` (Neon's HTTP driver host). Local `.env.local` has no Liveblocks/Upstash/Inngest keys (they only live in Worker secrets), so those paths skip locally.

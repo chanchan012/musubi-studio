@@ -21,7 +21,7 @@ export default function Home() {
   return (
     <div className="min-h-dvh">
       <header className="mx-auto flex max-w-5xl items-center gap-4 px-4 py-4 sm:px-6">
-        <span className="flex items-center gap-2 text-lg font-semibold"><span aria-hidden className="text-2xl text-seal">結</span> Musubi</span>
+        <span className="flex items-center gap-2 text-lg font-semibold"><span aria-hidden className="text-2xl text-seal-ink">結</span> Musubi</span>
         <nav className="ml-auto flex items-center gap-2 text-sm">
           <Link href="/sign-in" className="rounded-lg px-3 py-2 hover:bg-card">Sign in</Link>
           <Link href="/sign-up" className="rounded-lg bg-ink px-3 py-2 font-medium text-paper">Start free</Link>
@@ -31,13 +31,13 @@ export default function Home() {
       <main>
         <section className="mx-auto grid max-w-5xl gap-8 px-4 pb-10 pt-6 sm:px-6 lg:grid-cols-[1fr_1.1fr] lg:items-start lg:gap-12 lg:pt-12">
           <div>
-            <p className="text-xs uppercase tracking-[0.2em] text-seal">Board-exam studio</p>
+            <p className="text-xs uppercase tracking-[0.2em] text-seal-ink">Board-exam studio</p>
             <h1 className="mt-3 text-4xl font-semibold leading-tight sm:text-5xl">Tie what you know to what you’ll be asked.</h1>
             <p className="mt-4 max-w-prose text-lg text-muted">
               Build flashcards and board-style questions together, in real time, with classmates and your own AI coding agent. Then sit mock blocks that train judgement as well as recall.
             </p>
             <div className="mt-6 flex flex-wrap gap-3">
-              <Link href="/sign-up" className="rounded-lg bg-seal px-5 py-3 font-medium text-white">Create a deck</Link>
+              <Link href="/sign-up" className="rounded-lg bg-seal-fill px-5 py-3 font-medium text-white">Create a deck</Link>
               <a href="#try" className="rounded-lg border border-line px-5 py-3">Try a question</a>
             </div>
             <p className="mt-4 text-sm text-muted">Free to use. Bring your own agent — Claude Code, Claude Desktop or Cursor — over MCP.</p>

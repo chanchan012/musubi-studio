@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { auth } from "@clerk/nextjs/server";
+import { currentUserId } from "@/server/identity";
 import { z } from "zod";
 import { getPost } from "@/server/community";
 import { NON_FUNCTIONING } from "@/lib/analytics";
@@ -14,7 +14,7 @@ const pct = (n: number) => `${Math.round(n * 100)}%`;
 export default async function PostPage({ params }: { params: Promise<{ id: string }> }) {
   const { id } = await params;
   if (!z.string().uuid().safeParse(id).success) notFound();
-  const userId = await auth().then((a) => a.userId).catch(() => null); // public page: signed-out (or no middleware) is fine
+  const userId = await currentUserId(); // public page: signed-out is fine
   const data = await getPost(id, userId);
   if (!data) notFound();
   const { post, items, myVote } = data;
@@ -22,7 +22,7 @@ export default async function PostPage({ params }: { params: Promise<{ id: strin
   return (
     <div className="flex h-dvh w-full flex-col overflow-hidden">
       <header className="flex items-center gap-3 border-b border-line px-4 py-3 sm:px-6">
-        <Link href="/" className="flex items-center gap-2 font-semibold"><span aria-hidden className="text-xl text-seal">結</span> Musubi</Link>
+        <Link href="/" className="flex items-center gap-2 font-semibold"><span aria-hidden className="text-xl text-seal-ink">結</span> Musubi</Link>
         <nav className="ml-auto text-sm"><Link href="/community" className="rounded-lg px-3 py-2 hover:bg-card">All decks</Link></nav>
       </header>
       <main className="min-h-0 flex-1 overflow-y-auto px-4 py-6 sm:px-6">
@@ -30,7 +30,7 @@ export default async function PostPage({ params }: { params: Promise<{ id: strin
           <section>
             <div className="flex flex-wrap items-center gap-2">
               <h1 className="min-w-0 break-words text-xl font-semibold">{post.title}</h1>
-              {post.verified && <span className="rounded-sm bg-sage px-1.5 py-0.5 text-[11px] font-medium text-paper">Verified</span>}
+              {post.verified && <span className="rounded-sm bg-sage-fill px-1.5 py-0.5 text-[11px] font-medium text-white">Verified</span>}
             </div>
             <p className="mt-1 text-sm text-muted">{post.description}</p>
             <p className="mt-1 text-xs text-muted tabular-nums">{post.track}{post.subject ? ` · ${post.subject}` : ""}{post.topic ? ` · ${post.topic}` : ""} · {items.length} items · by {post.publisher ?? "anonymous"}</p>
@@ -58,7 +58,7 @@ export default async function PostPage({ params }: { params: Promise<{ id: strin
                             <span className="text-muted">{"ABCDE"[i]}</span>
                             <span className="min-w-0 break-words">{o}</span>
                             <span className="text-right text-xs tabular-nums">
-                              {d && it.attempts > 0 ? <>{pct(d.rate)}{d.nonFunctioning && <span className="ml-1 rounded-sm border border-seal px-1 text-seal" title={`Chosen by under ${pct(NON_FUNCTIONING)} of examinees`}>weak distractor</span>}</> : ""}
+                              {d && it.attempts > 0 ? <>{pct(d.rate)}{d.nonFunctioning && <span className="ml-1 rounded-sm border border-seal px-1 text-seal-ink" title={`Chosen by under ${pct(NON_FUNCTIONING)} of examinees`}>weak distractor</span>}</> : ""}
                             </span>
                           </li>
                         );
@@ -67,7 +67,7 @@ export default async function PostPage({ params }: { params: Promise<{ id: strin
                   </>
                 )}
                 <div className="mt-3 flex items-center gap-3 text-xs text-muted">
-                  {it.openErrata > 0 && <span className="text-seal">{it.openErrata} open erratum{it.openErrata > 1 ? "a" : ""}</span>}
+                  {it.openErrata > 0 && <span className="text-seal-ink">{it.openErrata} open erratum{it.openErrata > 1 ? "a" : ""}</span>}
                   {userId ? <ErratumForm itemId={it.id} /> : <Link href="/sign-in" className="underline">Sign in to report an error</Link>}
                 </div>
               </li>
