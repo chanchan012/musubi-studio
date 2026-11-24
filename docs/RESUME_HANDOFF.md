@@ -9,6 +9,6 @@ Open items:
 
 Done: Error 1101 fixed (pnpm override `@opennextjs/aws>cookie: 0.7.2`, test in tests/opennext-cookie.test.ts).
 M4 layout: server `src/server/{items,mcp,mcp-tokens,liveblocks,ratelimit}.ts`, routes `routes/{studio,mcp}.ts` (MCP mounted before Clerk middleware; bearer `mus_…` tokens). Client `src/lib/studio-store.ts` (zustand + liveblocks), `src/components/studio/*`. Rooms are `deck:{deckId}`; server broadcasts `items-changed` / `threads-changed`.
-M5 done (community + Inngest). Next: M6 (Playwright multiplayer/mock-exam E2E, all routes at 3 viewports, accessibility review), plus the unbuilt flashcard study screens and full dashboard.
+M5 done (community + Inngest). Study screens + dashboard done. Next: M6 (Playwright multiplayer/mock-exam E2E, all routes at 3 viewports, accessibility review), plus the unbuilt flashcard study screens and full dashboard.
 
 MCP auth: `/api/mcp` is a plain 8-tool Streamable HTTP server. Auth is Clerk OAuth (RFC 9728 metadata at `/.well-known/oauth-protected-resource/api/mcp`, token audience = `<origin>/api/mcp`, registered via Clerk `configure_mcp_server`) with `mus_` personal tokens as a fallback. Code Mode was dropped (needs a paid Workers plan). If the origin changes (custom domain), re-register the resource URL in Clerk.
